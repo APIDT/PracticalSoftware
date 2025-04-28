@@ -1,0 +1,64 @@
+# Django specific stuff:
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+*.sqlite3
+
+# If you use the default staticfiles storage backend, the next two lines
+# can be commented out.
+#STATIC_ROOT
+#MEDIA_ROOT # Якщо MEDIA_ROOT знаходиться всередині проекту і ви не хочете її комітити
+
+# Uploaded media files
+media/ # Каталог для завантажених користувачами файлів
+
+# Virtual environment
+my_env/ 
+
+# Common IDE directories
+.idea/ # PyCharm
+.vscode/ # VS Code
+*.swp
+*~
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.manifest
+*.pex
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Editors
+.#*
+.DS_Store # macOS

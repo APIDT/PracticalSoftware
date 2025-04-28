@@ -1,13 +1,54 @@
 <!DOCTYPE html>
 <html lang="uk">
-
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Blog</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Blog - Головна</title> {# Оновлений заголовок #}
+    {# Тут можуть бути посилання на CSS або інші ресурси #}
 </head>
-
 <body>
-Home page
-</body>
 
+    <h1>Ласкаво просимо до Блогу!</h1> {# Додано заголовок #}
+
+    <h2>Категорії</h2>
+    {% if categories %} {# Перевіряємо, чи є категорії #}
+        <ul> {# Використовуємо список для категорій #}
+            {% for item in categories %} {# Перебираємо категорії, передані з views #}
+                <li>
+                    {# Посилання на список статей цієї категорії. Використовуємо get_absolute_url з моделі Category #}
+                    <a href="{{ item.get_absolute_url }}">
+                        {{ item.category }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Категорії ще не додано.</p>
+    {% endif %}
+
+    <h2>Останні публікації</h2>
+    {% if articles %} {# Перевіряємо, чи є статті для головної сторінки #}
+        {% for item in articles %} {# Перебираємо статті, передані з views #}
+            <div class="articles-row"> {# Можливо, для стилізації #}
+                {# Посилання на детальну сторінку статті. Використовуємо get_absolute_url з моделі Article #}
+                <a href="{{ item.get_absolute_url }}">
+                    <h4>{{ item.title }}</h4> {# Заголовок статті #}
+                </a>
+                <h5>
+                    {{ item.pub_date|date:"j E Y"|safe|linebreaks }} {# Дата публікації #}
+                </h5>
+                <p>
+                    {{ item.description|safe|escape|striptags|truncatewords_html:32 }} {# Опис/текст статті #}
+                </p>
+                {# Тут можна було б додати відображення зображення, як у articles_list.html, якщо потрібно #}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Немає публікацій для відображення на головній сторінці.</p>
+    {% endif %}
+
+    {# Посилання на сторінку зі списком усіх публікацій #}
+    <p><a href="{% url 'articles-list' %}">Переглянути всі публікації</a></p>
+
+
+</body>
 </html>
