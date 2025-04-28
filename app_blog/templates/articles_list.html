@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Публікації{% if category %} у категорії {{ category }}{% endif %}</title>
+</head>
+<body>
+
+    <h1>Публікації{% if category %} у категорії "{{ category }}"{% endif %}</h1>
+
+    {% if items %}
+        {% for item in items %}
+            <div class="articles-row">
+                <a href="{{ item.get_absolute_url }}">
+                    <h4>{{ item.title }}</h4>
+                </a>
+                <h5>
+                    {{ item.pub_date|date:"j E Y"|safe|linebreaks }} {# Використання фільтрів date, safe, linebreaks #}
+                </h5>
+                <p>
+                    {{ item.description|safe|escape|striptags|truncatewords_html:32 }} {# Використання фільтрів #}
+                </p>
+                {% if item.images.all %}
+                    <div class="container-image">
+                        {# Відображаємо перше зображення, якщо є #}
+                        {% with main_image=item.images.all.0 %}
+                            {% if main_image %}
+                                <img class="img" src="{{ main_image.image.url }}" alt="{{ main_image.title|default:'Зображення' }}" />
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                {% endif %}
+                <div class='clearfix'></div> {# Можливо, для CSS #}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Немає доступних публікацій.</p>
+    {% endif %}
+
+    {# Додавання навігації, якщо потрібно повернутись (наприклад, на головну) #}
+    <p><a href="{% url 'home' %}">На головну</a></p>
+
+</body>
+</html>

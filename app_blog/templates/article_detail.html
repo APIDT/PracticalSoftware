@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ item.title }}</title> {# Відображаємо заголовок статті #}
+    {% load static %} {# Завантажуємо статичні файли, якщо вони потрібні (наприклад, CSS/JS) #}
+    {# Тут можуть бути посилання на CSS або інші ресурси #}
+</head>
+<body>
+
+    <div>
+        {# Навігаційна секція (breadcrumb), згідно з документом #}
+        <ol class="breadcrumb">
+            <li><a href="/">Головна</a></li> {# Посилання на головну #}
+            <li><a href="{% url 'articles-list' %}">Публікації</a></li> {# Посилання на список усіх публікацій #}
+            {# Посилання на список публікацій за категорією статті #}
+            {% if item.category %}
+                <li><a href="{{ item.category.get_absolute_url }}">{{ item.category.category|upper }}</a></li> {# Використання фільтра upper #}
+            {% endif %}
+            <li class="active">{{ item.title|upper }}</li> {# Назва поточної статті #}
+        </ol>
+    </div>
+
+    <div>
+        {# Заголовок статті #}
+        <h3>{{ item.title }}</h3>
+        {# Дата публікації #}
+        <h5>{{ item.pub_date|date:"d E Y"|safe|linebreaks }}</h5> {# Використання фільтрів #}
+    </div>
+
+    <div>
+        {# Опис/текст статті #}
+        {{ item.description|escape|safe }} {# Використання фільтрів escape, safe #}
+    </div>
+
+    {% if item.images.all %}
+        {# Включаємо шаблон для галереї зображень, якщо є зображення #}
+        {% include 'fotorama.html' with images=item.images.all %} {# Передаємо список зображень як змінну images #}
+    {% endif %}
+
+    <div class='clearfix'></div> {# Можливо, для CSS #}
+
+</body>
+</html>

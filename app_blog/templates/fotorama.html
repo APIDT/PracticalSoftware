@@ -1,0 +1,22 @@
+{% spaceless %} {# Видаляє зайві пробіли між HTML-тегами #}
+{% load static %} {# Завантажуємо статичні файли, якщо потрібні #}
+
+{# Підключаємо CSS та JS файли Fotorama з CDN #}
+{# Блок head з документа, але ці посилання краще розміщувати в <head> базового шаблону, якщо ви його використовуєте #}
+{% comment %}
+{% block head %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
+{% endblock %}
+{% endcomment %}
+
+<div class="fotorama" data-nav="thumbs" data-allowfullscreen="true"> {# Клас fotorama та атрибути для налаштування #}
+    {% for image in images %} {# Перебираємо зображення, передані в контексті #}
+        <img src="{{ image.image.url }}"
+             {% if image.title %}data-caption="{{ image.title }}"{% endif %} {# Підпис до зображення #}
+             alt="{{ image.title|default:'Зображення статті' }}"> {# Альтернативний текст #}
+    {% endfor %}
+</div>
+
+{% endspaceless %}
